@@ -1,0 +1,6 @@
+{
+    //ignore tailwind @apply in css files
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "less.lint.unknownAtRules": "ignore"
+}
