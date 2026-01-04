@@ -867,7 +867,7 @@ const Navbar: React.FC = () => {
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-      />
+      />ّ
 
       {/* Spacer */}
       <div className="h-16" />

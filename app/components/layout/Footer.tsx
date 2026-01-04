@@ -16,7 +16,7 @@ import {
   FaClock,
   FaGem,
   FaShieldAlt,
-  FaTruck,
+  FaMoneyBill,
   FaHeadset,
   FaCoins,
 } from "react-icons/fa";
@@ -143,9 +143,9 @@ const features: Feature[] = [
     description: "تضمین کیفیت و اصالت کالا",
   },
   {
-    icon: <FaTruck size={28} />,
-    title: "ارسال امن",
-    description: "ارسال بیمه‌شده به سراسر کشور",
+    icon: <FaMoneyBill size={28} />,
+    title: "مناسب برای صنف طلا",
+    description: "طراحی شده ویژه برای نیازهای صنف طلا و جواهر",
   },
   {
     icon: <FaHeadset size={28} />,
@@ -432,7 +432,7 @@ const Footer: React.FC = () => {
               {/* Description */}
               <p className="text-gray-400 leading-relaxed mb-6">
                 زرماوا، معتبرترین مرجع خرید و فروش طلا و جواهرات در ایران. با
-                بیش از ۲۰ سال تجربه در صنعت طلا، ما بهترین خدمات و محصولات را با
+                سالها تجربه در صنعت طلا، ما بهترین خدمات و محصولات را با
                 ضمانت اصالت به شما ارائه می‌دهیم.
               </p>
 
@@ -469,7 +469,7 @@ const Footer: React.FC = () => {
                   <div className="p-2 bg-primary/10 rounded-lg">
                     <FaMapMarkerAlt className="text-primary" />
                   </div>
-                  <span>تهران، بازار بزرگ، راسته طلافروشان</span>
+                  <span></span>
                 </motion.div>
 
                 <motion.div
@@ -479,7 +479,7 @@ const Footer: React.FC = () => {
                   <div className="p-2 bg-primary/10 rounded-lg">
                     <FaClock className="text-primary" />
                   </div>
-                  <span>شنبه تا پنج‌شنبه: ۹ صبح تا ۹ شب</span>
+                  <span></span>
                 </motion.div>
               </div>
             </motion.div>
