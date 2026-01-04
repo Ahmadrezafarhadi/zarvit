@@ -25,13 +25,13 @@ import {
 } from "react-icons/fa";
 import { HiSparkles, HiMenuAlt3, HiX } from "react-icons/hi";
 
-//  Types 
+// Types
 interface MenuItem {
   title: string;
   href: string;
   icon: React.ReactNode;
   badge?: number;
-  authRequired?: boolean; // نیاز به لاگین
+  authRequired?: boolean;
 }
 
 interface UserInfo {
@@ -40,7 +40,7 @@ interface UserInfo {
   avatar?: string;
 }
 
-//  Data 
+// Data
 // منوی عمومی (برای همه کاربرا نمایش داده میشه)
 const publicMenuItems: MenuItem[] = [
   { title: "صفحه اصلی", href: "/", icon: <FaHome size={18} /> },
@@ -57,43 +57,23 @@ const privateMenuItems: MenuItem[] = [
   { title: "سفارشات", href: "/orders", icon: <FaClipboardList size={18} />, badge: 3 },
 ];
 
-//  Animation Variants 
-const menuVariants = {
-  closed: {
-    x: 100,
-    transition: { type: "spring" as const, stiffness: 400, damping: 40 },
-  },
-  open: {
-    x: 0,
-    transition: { type: "spring" as const, stiffness: 400, damping: 40 },
-  },
-};
-
-const overlayVariants = {
-  closed: { opacity: 0 },
-  open: { opacity: 1 },
-};
-
+// Animation Variants
 const menuItemVariants = {
-  closed: { x: 20, opacity: 0 },
+  closed: { y: 20, opacity: 0 },
   open: (i: number) => ({
-    x: 0,
+    y: 0,
     opacity: 1,
-    transition: { delay: i * 0.1 },
+    transition: { delay: i * 0.05 },
   }),
 };
 
-//  Logo Component 
+// Logo Component
 const Logo: React.FC = () => (
   <Link href="/" className="flex items-center gap-3 group">
     <motion.div
       whileHover={{ scale: 1.05, rotate: 5 }}
       whileTap={{ scale: 0.95 }}
-      className="relative w-11 h-11 bg-linear-to-br from-primary to-amber-600 
-                 rounded-xl flex items-center justify-center
-                 shadow-lg shadow-primary/25
-                 group-hover:shadow-xl group-hover:shadow-primary/40
-                 transition-shadow duration-300"
+      className="relative w-11 h-11 bg-linear-to-br from-primary to-amber-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/25 group-hover:shadow-xl group-hover:shadow-primary/40 transition-shadow duration-300"
     >
       <FaGem className="text-background text-lg" />
       <motion.div
@@ -105,10 +85,7 @@ const Logo: React.FC = () => (
       </motion.div>
     </motion.div>
     <div className="hidden sm:block">
-      <motion.h1
-        className="font-black text-xl text-white group-hover:text-primary 
-                   transition-colors duration-300"
-      >
+      <motion.h1 className="font-black text-xl text-white group-hover:text-primary transition-colors duration-300">
         زرماوا
       </motion.h1>
       <span className="text-[10px] text-primary/70 font-medium tracking-wider">
@@ -118,7 +95,7 @@ const Logo: React.FC = () => (
   </Link>
 );
 
-//  Desktop Menu Item 
+// Desktop Menu Item
 const DesktopMenuItem: React.FC<{ item: MenuItem; isActive: boolean }> = ({
   item,
   isActive,
@@ -126,44 +103,26 @@ const DesktopMenuItem: React.FC<{ item: MenuItem; isActive: boolean }> = ({
   <motion.li whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
     <Link
       href={item.href}
-      className={`
-        relative flex items-center gap-2.5 
-        px-4 py-2.5 rounded-xl
-        text-sm font-medium
-        transition-all duration-300
-        ${isActive
-          ? "text-primary bg-primary/15 shadow-sm shadow-primary/10"
-          : "text-gray-400 hover:text-white hover:bg-card-bg"
-        }
-      `}
+      className={`relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${isActive ? "text-primary bg-primary/15 shadow-sm shadow-primary/10" : "text-gray-400 hover:text-white hover:bg-card-bg"}`}
     >
       <span className={isActive ? "text-primary" : ""}>{item.icon}</span>
       <span>{item.title}</span>
-
       {item.badge && (
-        <span
-          className="absolute -top-1 -left-1 min-w-[18px] h-[18px] 
-                     flex items-center justify-center
-                     text-[10px] font-bold text-white
-                     bg-red-500 rounded-full px-1"
-        >
+        <span className="absolute -top-1 -left-1 min-w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold text-white bg-red-500 rounded-full px-1">
           {item.badge}
         </span>
       )}
-
       {isActive && (
         <motion.span
           layoutId="activeIndicator"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2
-                     w-1.5 h-1.5 rounded-full bg-primary
-                     shadow-sm shadow-primary"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary shadow-sm shadow-primary"
         />
       )}
     </Link>
   </motion.li>
 );
 
-//  Icon Button 
+// Icon Button
 const IconButton: React.FC<{
   icon: React.ReactNode;
   badge?: boolean;
@@ -174,30 +133,20 @@ const IconButton: React.FC<{
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
     onClick={onClick}
-    className={`
-      relative w-10 h-10 rounded-xl
-      flex items-center justify-center
-      text-gray-400 bg-transparent
-      hover:text-white hover:bg-card-bg
-      transition-all duration-300
-      cursor-pointer
-      ${className}
-    `}
+    className={`relative w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 bg-transparent hover:text-white hover:bg-card-bg transition-all duration-300 cursor-pointer ${className}`}
   >
     {icon}
     {badge && (
       <motion.span
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        className="absolute top-1.5 right-1.5
-                   w-2.5 h-2.5 rounded-full
-                   bg-red-500 border-2 border-background"
+        className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-background"
       />
     )}
   </motion.button>
 );
 
-//  Auth Buttons (برای کاربران لاگین نشده) 
+// Auth Buttons (برای کاربران لاگین نشده)
 const AuthButtons: React.FC = () => (
   <div className="flex items-center gap-2">
     {/* دکمه ورود */}
@@ -205,11 +154,7 @@ const AuthButtons: React.FC = () => (
       <motion.button
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-xl
-                   text-gray-300 hover:text-white
-                   border border-border hover:border-primary/50
-                   hover:bg-card-bg
-                   transition-all duration-300 cursor-pointer"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-gray-300 hover:text-white border border-border hover:border-primary/50 hover:bg-card-bg transition-all duration-300 cursor-pointer"
       >
         <FaSignInAlt size={14} />
         <span className="text-sm font-medium">ورود</span>
@@ -221,12 +166,7 @@ const AuthButtons: React.FC = () => (
       <motion.button
         whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(255, 164, 0, 0.3)" }}
         whileTap={{ scale: 0.98 }}
-        className="flex items-center gap-2 px-5 py-2.5 rounded-xl
-                   text-background font-bold
-                   bg-linear-to-r from-primary to-amber-500
-                   hover:from-amber-500 hover:to-primary
-                   shadow-lg shadow-primary/25
-                   transition-all duration-300 cursor-pointer"
+        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-background font-bold bg-linear-to-r from-primary to-amber-500 hover:from-amber-500 hover:to-primary shadow-lg shadow-primary/25 transition-all duration-300 cursor-pointer"
       >
         <FaUserPlus size={14} />
         <span className="text-sm">ثبت نام</span>
@@ -235,42 +175,31 @@ const AuthButtons: React.FC = () => (
   </div>
 );
 
-//  Mobile Auth Buttons 
+// Mobile Auth Buttons
 const MobileAuthButtons: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-  <div className="p-4 space-y-3">
-    <Link href="/login" onClick={onClose}>
+  <div className="flex gap-3 w-full">
+    <Link href="/login" onClick={onClose} className="flex-1">
       <motion.button
         whileTap={{ scale: 0.98 }}
-        className="w-full flex items-center justify-center gap-2 
-                   p-3.5 rounded-xl
-                   text-white font-medium
-                   border border-border hover:border-primary/50
-                   hover:bg-card-bg
-                   transition-all duration-300 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 p-3.5 rounded-xl text-white font-medium border border-border hover:border-primary/50 hover:bg-card-bg transition-all duration-300 cursor-pointer"
       >
         <FaSignInAlt size={16} />
-        <span>ورود به حساب</span>
+        <span>ورود</span>
       </motion.button>
     </Link>
-
-    <Link href="/register" onClick={onClose}>
+    <Link href="/register" onClick={onClose} className="flex-1">
       <motion.button
         whileTap={{ scale: 0.98 }}
-        className="w-full flex items-center justify-center gap-2 
-                   p-3.5 rounded-xl
-                   text-background font-bold
-                   bg-linear-to-r from-primary to-amber-500
-                   shadow-lg shadow-primary/30
-                   transition-all duration-300 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 p-3.5 rounded-xl text-background font-bold bg-linear-to-r from-primary to-amber-500 shadow-lg shadow-primary/30 transition-all duration-300 cursor-pointer"
       >
         <FaUserPlus size={16} />
-        <span>ثبت نام رایگان</span>
+        <span>ثبت نام</span>
       </motion.button>
     </Link>
   </div>
 );
 
-//  User Profile Button (برای کاربران لاگین شده) 
+// User Profile Button (برای کاربران لاگین شده)
 const UserProfile: React.FC<{
   user: UserInfo;
   showDetails?: boolean;
@@ -284,20 +213,9 @@ const UserProfile: React.FC<{
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 
-                   py-1.5 px-2 rounded-xl
-                   hover:bg-card-bg
-                   transition-all duration-300
-                   cursor-pointer group"
+        className="flex items-center gap-3 py-1.5 px-2 rounded-xl hover:bg-card-bg transition-all duration-300 cursor-pointer group"
       >
-        <div
-          className="w-9 h-9 rounded-xl
-                     bg-linear-to-br from-primary/20 to-primary/10
-                     flex items-center justify-center
-                     border-2 border-primary/30
-                     group-hover:border-primary/50
-                     transition-all duration-300"
-        >
+        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-primary/20 to-primary/10 flex items-center justify-center border-2 border-primary/30 group-hover:border-primary/50 transition-all duration-300">
           <span className="text-primary font-bold text-sm">
             {user.name.charAt(0)}
           </span>
@@ -333,19 +251,12 @@ const UserProfile: React.FC<{
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="absolute top-full left-0 mt-2 w-56 z-50
-                         bg-card-bg border border-border rounded-xl
-                         shadow-xl shadow-black/20 overflow-hidden"
+              className="absolute top-full left-0 mt-2 w-56 z-50 bg-card-bg border border-border rounded-xl shadow-xl shadow-black/20 overflow-hidden"
             >
               {/* User Info Header */}
               <div className="p-4 border-b border-border bg-background/50">
                 <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-xl
-                               bg-linear-to-br from-primary/20 to-primary/10
-                               flex items-center justify-center
-                               border-2 border-primary/30"
-                  >
+                  <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary/20 to-primary/10 flex items-center justify-center border-2 border-primary/30">
                     <span className="text-primary font-bold">
                       {user.name.charAt(0)}
                     </span>
@@ -367,9 +278,7 @@ const UserProfile: React.FC<{
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="flex items-center gap-3 p-3 rounded-lg
-                               text-gray-400 hover:text-white hover:bg-background/50
-                               transition-all duration-200"
+                    className="flex items-center gap-3 p-3 rounded-lg text-gray-400 hover:text-white hover:bg-background/50 transition-all duration-200"
                     onClick={() => setIsOpen(false)}
                   >
                     {item.icon}
@@ -385,9 +294,7 @@ const UserProfile: React.FC<{
                     setIsOpen(false);
                     onLogout();
                   }}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg
-                             text-red-400 hover:bg-red-500/10
-                             transition-all duration-200 cursor-pointer"
+                  className="w-full flex items-center gap-3 p-3 rounded-lg text-red-400 hover:bg-red-500/10 transition-all duration-200 cursor-pointer"
                 >
                   <FaSignOutAlt size={14} />
                   <span className="text-sm">خروج از حساب</span>
@@ -401,7 +308,7 @@ const UserProfile: React.FC<{
   );
 };
 
-//  Mobile Menu 
+// Mobile Menu
 const MobileMenu: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -413,175 +320,114 @@ const MobileMenu: React.FC<{
   const menuItems = isLoggedIn ? privateMenuItems : publicMenuItems;
 
   return (
-    <>
-      {/* Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            variants={overlayVariants}
-            initial="closed"
-            animate="open"
-            exit="closed"
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden"
-            onClick={onClose}
-          />
-        )}
-      </AnimatePresence>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-40 bg-background md:hidden flex flex-col"
+        >
+          <div className="h-16" />
 
-      {/* Menu Panel */}
-      <motion.div
-        variants={menuVariants}
-        initial="closed"
-        animate={isOpen ? "open" : "closed"}
-        className="fixed top-16 right-0 bottom-0 z-40
-                   w-72 bg-background
-                   border-l border-border
-                   shadow-2xl shadow-black/20
-                   md:hidden flex flex-col"
-      >
-        {/* Header - نمایش بر اساس وضعیت لاگین */}
-        {isLoggedIn && user ? (
-          <div className="p-4 border-b border-border bg-card-bg/50">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-12 h-12 rounded-xl
-                           bg-linear-to-br from-primary/20 to-primary/10
-                           flex items-center justify-center
-                           border-2 border-primary/30"
-              >
-                <span className="text-primary font-bold text-lg">
-                  {user.name.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <p className="font-semibold text-white">{user.name}</p>
-                <p className="text-sm text-gray-500">{user.role}</p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="p-4 border-b border-border bg-card-bg/50">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-12 h-12 rounded-xl
-                           bg-linear-to-br from-primary/20 to-primary/10
-                           flex items-center justify-center
-                           border-2 border-primary/30"
-              >
-                <FaGem className="text-primary text-lg" />
-              </div>
-              <div>
-                <p className="font-semibold text-white">خوش آمدید</p>
-                <p className="text-sm text-gray-500">برای شروع وارد شوید</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Quick Stats - فقط برای کاربران لاگین شده */}
-        {isLoggedIn && (
-          <div className="p-4 border-b border-border">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-card-bg rounded-xl text-center">
-                <p className="text-lg font-bold text-primary">۱۲۳</p>
-                <p className="text-xs text-gray-500">سفارش</p>
-              </div>
-              <div className="p-3 bg-card-bg rounded-xl text-center">
-                <p className="text-lg font-bold text-green-500">۴۵</p>
-                <p className="text-xs text-gray-500">محصول</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Menu Items */}
-        <ul className="flex-1 p-4 space-y-2 overflow-y-auto">
-          {menuItems.map((item, index) => {
-            const isActive = pathname === item.href || 
-                           (item.href !== "/" && pathname.startsWith(item.href));
-
-            return (
-              <motion.li
-                key={item.href}
-                custom={index}
-                variants={menuItemVariants}
-                initial="closed"
-                animate={isOpen ? "open" : "closed"}
-              >
-                <Link
-                  href={item.href}
-                  onClick={onClose}
-                  className={`
-                    relative flex items-center gap-3
-                    p-3.5 rounded-xl
-                    font-medium
-                    transition-all duration-300
-                    ${isActive
-                      ? "text-background bg-linear-to-r from-primary to-amber-500 shadow-lg shadow-primary/30"
-                      : "text-gray-400 hover:text-white hover:bg-card-bg"
-                    }
-                  `}
-                >
-                  <span className={isActive ? "text-background" : ""}>
-                    {item.icon}
+          <div className="flex-1 flex flex-col p-6 overflow-y-auto">
+            {/* Header - نمایش بر اساس وضعیت لاگین */}
+            {isLoggedIn && user ? (
+              <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border">
+                <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-primary/20 to-primary/10 flex items-center justify-center border-2 border-primary/30">
+                  <span className="text-primary font-bold text-xl">
+                    {user.name.charAt(0)}
                   </span>
-                  <span>{item.title}</span>
+                </div>
+                <div>
+                  <p className="font-bold text-lg text-white">{user.name}</p>
+                  <p className="text-sm text-gray-500">{user.role}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border">
+                <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-primary/20 to-primary/10 flex items-center justify-center border-2 border-primary/30">
+                  <FaGem className="text-primary text-xl" />
+                </div>
+                <div>
+                  <p className="font-bold text-lg text-white">زرماوا</p>
+                  <p className="text-sm text-gray-500">خوش آمدید</p>
+                </div>
+              </div>
+            )}
 
-                  {item.badge && (
-                    <span
-                      className={`mr-auto min-w-[20px] h-[20px] 
-                                 flex items-center justify-center
-                                 text-[10px] font-bold rounded-full px-1
-                                 ${isActive
-                                   ? "bg-background/30 text-background"
-                                   : "bg-red-500 text-white"
-                                 }`}
+            {/* Quick Stats - فقط برای کاربران لاگین شده */}
+            {isLoggedIn && (
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="p-4 bg-card-bg rounded-2xl text-center">
+                  <p className="text-2xl font-bold text-primary">۱۲۳</p>
+                  <p className="text-sm text-gray-500 mt-1">سفارش</p>
+                </div>
+                <div className="p-4 bg-card-bg rounded-2xl text-center">
+                  <p className="text-2xl font-bold text-green-500">۴۵</p>
+                  <p className="text-sm text-gray-500 mt-1">محصول</p>
+                </div>
+              </div>
+            )}
+
+            {/* Menu Items */}
+            <ul className="space-y-3">
+              {menuItems.map((item, index) => {
+                const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                return (
+                  <motion.li
+                    key={item.href}
+                    custom={index}
+                    variants={menuItemVariants}
+                    initial="closed"
+                    animate="open"
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={onClose}
+                      className={`relative flex items-center gap-4 p-4 rounded-2xl font-medium transition-all duration-300 ${isActive ? "text-background bg-linear-to-r from-primary to-amber-500 shadow-lg shadow-primary/30" : "text-gray-400 hover:text-white bg-card-bg"}`}
                     >
-                      {item.badge}
-                    </span>
-                  )}
+                      <span className={isActive ? "text-background" : ""}>
+                        {item.icon}
+                      </span>
+                      <span className="text-base">{item.title}</span>
+                      {item.badge && (
+                        <span className={`mr-auto min-w-[24px] h-[24px] flex items-center justify-center text-xs font-bold rounded-full px-2 ${isActive ? "bg-background/30 text-background" : "bg-red-500 text-white"}`}>
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  </motion.li>
+                );
+              })}
+            </ul>
 
-                  {isActive && !item.badge && (
-                    <span className="mr-auto w-2 h-2 rounded-full bg-background/50" />
-                  )}
-                </Link>
-              </motion.li>
-            );
-          })}
-        </ul>
-
-        {/* Footer - بر اساس وضعیت لاگین */}
-        {isLoggedIn ? (
-          <div className="p-4 border-t border-border bg-card-bg/50">
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                onClose();
-                onLogout();
-              }}
-              className="w-full flex items-center justify-center gap-2
-                         p-3.5 rounded-xl
-                         text-red-400 bg-red-500/10
-                         hover:bg-red-500/20
-                         font-medium
-                         transition-all duration-300
-                         cursor-pointer"
-            >
-              <FaSignOutAlt size={16} />
-              <span>خروج از حساب</span>
-            </motion.button>
+            {/* Footer - بر اساس وضعیت لاگین */}
+            <div className="mt-auto pt-6">
+              {isLoggedIn ? (
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    onClose();
+                    onLogout();
+                  }}
+                  className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl text-red-400 bg-red-500/10 hover:bg-red-500/20 font-medium transition-all duration-300 cursor-pointer"
+                >
+                  <FaSignOutAlt size={18} />
+                  <span>خروج از حساب</span>
+                </motion.button>
+              ) : (
+                <MobileAuthButtons onClose={onClose} />
+              )}
+            </div>
           </div>
-        ) : (
-          <div className="border-t border-border bg-card-bg/50">
-            <MobileAuthButtons onClose={onClose} />
-          </div>
-        )}
-      </motion.div>
-    </>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
-//  Search Modal 
+// Search Modal
 const SearchModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
@@ -600,47 +446,35 @@ const SearchModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           initial={{ opacity: 0, y: -50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -50, scale: 0.9 }}
-          className="fixed top-20 left-1/2 -translate-x-1/2 z-50
-                     w-full max-w-2xl mx-4"
+          className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl mx-4"
         >
-          <div
-            className="bg-card-bg border border-border rounded-2xl
-                       shadow-2xl shadow-black/30 overflow-hidden"
-          >
+          <div className="bg-card-bg border border-border rounded-2xl shadow-2xl shadow-black/30 overflow-hidden">
             <div className="flex items-center gap-4 p-4 border-b border-border">
               <FaSearch className="text-primary text-xl" />
               <input
                 type="text"
                 placeholder="جستجو در محصولات، قیمت‌ها..."
                 autoFocus
-                className="flex-1 bg-transparent text-white text-lg
-                           placeholder-gray-500 outline-none"
+                className="flex-1 bg-transparent text-white text-lg placeholder-gray-500 outline-none"
               />
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg text-gray-500 
-                           hover:text-white hover:bg-background
-                           transition-all cursor-pointer"
+                className="p-2 rounded-lg text-gray-500 hover:text-white hover:bg-background transition-all cursor-pointer"
               >
                 <HiX size={24} />
               </button>
             </div>
-
             <div className="p-4">
               <p className="text-xs text-gray-500 mb-3">جستجوی محبوب</p>
               <div className="flex flex-wrap gap-2">
-                {["طلای ۱۸ عیار", "سکه امامی", "شمش طلا", "نیم سکه"].map(
-                  (item) => (
-                    <button
-                      key={item}
-                      className="px-3 py-1.5 bg-background rounded-lg
-                                 text-sm text-gray-400 hover:text-primary
-                                 hover:bg-primary/10 transition-all cursor-pointer"
-                    >
-                      {item}
-                    </button>
-                  )
-                )}
+                {["طلای ۱۸ عیار", "سکه امامی", "شمش طلا", "نیم سکه"].map((item) => (
+                  <button
+                    key={item}
+                    className="px-3 py-1.5 bg-background rounded-lg text-sm text-gray-400 hover:text-primary hover:bg-primary/10 transition-all cursor-pointer"
+                  >
+                    {item}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -650,7 +484,7 @@ const SearchModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   </AnimatePresence>
 );
 
-//  Main Navbar Component 
+// Main Navbar Component
 const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -762,13 +596,7 @@ const Navbar: React.FC = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`
-          fixed top-0 right-0 left-0 z-50 h-16
-          bg-background/95 backdrop-blur-md
-          border-b border-border
-          transition-all duration-300
-          ${isScrolled ? "shadow-lg shadow-primary/5" : ""}
-        `}
+        className={`fixed top-0 right-0 left-0 z-50 h-16 bg-background/95 backdrop-blur-md border-b border-border transition-all duration-300 ${isScrolled ? "shadow-lg shadow-primary/5" : ""}`}
       >
         <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-full">
@@ -781,10 +609,7 @@ const Navbar: React.FC = () => {
                 <DesktopMenuItem
                   key={item.href}
                   item={item}
-                  isActive={
-                    pathname === item.href ||
-                    (item.href !== "/" && pathname.startsWith(item.href))
-                  }
+                  isActive={pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))}
                 />
               ))}
             </ul>
@@ -813,10 +638,7 @@ const Navbar: React.FC = () => {
 
                   {/* User Profile */}
                   <div className="hidden sm:block">
-                    <UserProfile
-                      user={user!}
-                      onLogout={handleLogout}
-                    />
+                    <UserProfile user={user!} onLogout={handleLogout} />
                   </div>
                 </>
               ) : (
@@ -833,9 +655,7 @@ const Navbar: React.FC = () => {
 
               {/* Mobile Menu Button */}
               <IconButton
-                icon={
-                  isMenuOpen ? <HiX size={22} /> : <HiMenuAlt3 size={22} />
-                }
+                icon={isMenuOpen ? <HiX size={22} /> : <HiMenuAlt3 size={22} />}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="md:hidden"
               />
@@ -847,9 +667,7 @@ const Navbar: React.FC = () => {
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: isScrolled ? 1 : 0 }}
-          className="absolute bottom-0 left-0 right-0 h-[2px] 
-                     bg-linear-to-r from-transparent via-primary to-transparent
-                     origin-center"
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-primary to-transparent origin-center"
         />
       </motion.nav>
 
@@ -864,20 +682,15 @@ const Navbar: React.FC = () => {
       />
 
       {/* Search Modal */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-      />ّ
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Spacer */}
       <div className="h-16" />
 
-      {/* دکمه تست برای تغییر وضعیت لاگین - در پروداکشن حذف خواهد شد  - صرفا برای تست گذاشتم یادم باشه حذف کنم */}
+      {/* دکمه تست برای تغییر وضعیت لاگین - در پروداکشن حذف خواهد شد */}
       <button
         onClick={() => (isLoggedIn ? handleLogout() : handleLogin())}
-        className="fixed bottom-4 right-4 z-50 px-4 py-2 
-                   bg-purple-600 text-white rounded-lg text-sm
-                   hover:bg-purple-700 transition-all cursor-pointer"
+        className="fixed bottom-4 right-4 z-50 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700 transition-all cursor-pointer"
       >
         {isLoggedIn ? "🔓 تست خروج" : "🔐 تست ورود"}
       </button>
