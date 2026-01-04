@@ -601,7 +601,9 @@ const Footer: React.FC = () => {
               © {currentYear} زرماوا - تمامی حقوق محفوظ است.
               <span className="mx-2">|</span>
             طراحی و توسعه  with{" "}
-              <span className="inline-block text-red-500">❤️</span> توسط احمدرضا فرهادی
+              <span className="inline-block text-red-500">❤️</span>  
+              <span>توسط </span>
+              <Link href="https://www.linkedin.com/in/ahmadrezafarhadi">احمدرضا فرهادی</Link>
             </motion.p>
             {/* Additional Links */}
             <div className="flex items-center gap-6 text-sm">
