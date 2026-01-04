@@ -1,11 +1,17 @@
-import "./globals.css";
 import type { Metadata } from "next";
+import { Vazirmatn } from "next/font/google";
+import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 
+const vazir = Vazirmatn({
+  subsets: ["arabic"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Zarmava",
-  description: "Unified Online & In-Person Sales System",
+  title: "زرماوا",
+  description: "پلتفرم تخصصی صنف طلا",
 };
 
 export default function RootLayout({
@@ -15,12 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="bg-gray-100 text-gray-900">
+      <body className={`${vazir.className} antialiased`}>
         <Navbar />
-        <div className="flex">
-          <main className="flex-1 p-6">{children}</main>
-        </div>
-        <Footer />
+        <main>
+          {children}
+        </main>
+        <Footer/>
       </body>
     </html>
   );
