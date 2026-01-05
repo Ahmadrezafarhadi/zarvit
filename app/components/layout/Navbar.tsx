@@ -44,8 +44,8 @@ interface UserInfo {
 // منوی عمومی (برای همه کاربرا نمایش داده میشه)
 const publicMenuItems: MenuItem[] = [
   { title: "صفحه اصلی", href: "/", icon: <FaHome size={18} /> },
-  { title: "قیمت لحظه‌ای", href: "/prices", icon: <FaChartLine size={18} /> },
   { title: "محاسبه‌گر", href: "/calculator", icon: <FaCalculator size={18} /> },
+  { title: "محصولات", href: "/products", icon: <FaBoxes size={18} /> },
   { title: "اخبار", href: "/news", icon: <FaNewspaper size={18} /> },
 ];
 
@@ -490,7 +490,6 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
 
   // وضعیت لاگین - این را با سیستم احراز هویت واقعی جایگزین خواهم کرد
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -532,11 +531,6 @@ const Navbar: React.FC = () => {
     setUser(null);
   };
 
-  // Handle hydration
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   // Handle scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -548,6 +542,7 @@ const Navbar: React.FC = () => {
 
   // Close menu on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setIsMenuOpen(false);
   }, [pathname]);
 
@@ -582,7 +577,8 @@ const Navbar: React.FC = () => {
   // انتخاب منو بر اساس وضعیت لاگین
   const menuItems = isLoggedIn ? privateMenuItems : publicMenuItems;
 
-  if (!isMounted) {
+  // Prevent hydration mismatch
+  if (typeof window === 'undefined') {
     return (
       <>
         <nav className="fixed top-0 right-0 left-0 z-50 h-16 bg-background border-b border-border" />

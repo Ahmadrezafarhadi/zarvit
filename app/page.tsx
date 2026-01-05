@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -64,20 +64,21 @@ const features: Feature[] = [
 // Gold Particles Component
 const GoldParticles: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-    const generatedParticles = [...Array(30)].map((_, i) => ({
+  useState(() => {
+    // Only generate particles on client side
+    const newParticles = [...Array(30)].map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
       delay: i * 0.2,
       size: Math.random() * 3 + 1,
     }));
-    setParticles(generatedParticles);
-  }, []);
+    setParticles(newParticles);
+    setMounted(true);
+  });
 
-  if (!isMounted) return null;
+  if (!mounted) return null;
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -516,4 +517,12 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+const HomePage: React.FC = () => {
+  return (
+    <div>
+      <Hero />
+    </div>
+  );
+};
+
+export default HomePage;

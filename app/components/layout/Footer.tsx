@@ -159,24 +159,20 @@ const features: Feature[] = [
   },
 ];
 
-//  Gold Particles Component (Fixed Hydration) 
+//  Gold Particles Component (Fixed Hydration)
 const GoldParticles: React.FC = () => {
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
+  const [particles] = useState<Particle[]>(() => {
     // تولید ذرات فقط در سمت کلاینت
-    const generatedParticles = [...Array(20)].map((_, i) => ({
+    if (typeof window === 'undefined') return [];
+    return [...Array(20)].map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
       delay: i * 0.3,
     }));
-    setParticles(generatedParticles);
-  }, []);
+  });
 
-  // رندر نکردن در سمت سرور
-  if (!isMounted) return null;
+  // رندر فقط در سمت کلاینت
+  if (typeof window === 'undefined') return null;
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -368,12 +364,7 @@ const ScrollToTop: React.FC = () => {
 
 //  Main Footer Component 
 const Footer: React.FC = () => {
-  const [currentYear, setCurrentYear] = useState<number>(2024);
-
-  // hydration برای تاریخ
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+  const [currentYear] = useState<number>(new Date().getFullYear());
 
   return (
     <footer className="relative bg-background overflow-hidden">

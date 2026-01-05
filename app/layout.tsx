@@ -3,6 +3,7 @@ import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import QueryProvider from "./components/QueryProvider";
 
 const vazir = Vazirmatn({
   subsets: ["arabic"],
@@ -22,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body className={`${vazir.className} antialiased`}>
-        <Navbar />
-        <main>
-          {children}
-        </main>
-        <Footer/>
+        <QueryProvider>
+          <Navbar />
+          <main>
+            {children}
+          </main>
+          <Footer/>
+        </QueryProvider>
       </body>
     </html>
   );
