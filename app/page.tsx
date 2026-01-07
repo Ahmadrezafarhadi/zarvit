@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { KioskSection } from "./components/homepage/KioskSection";
 import {
   FaGem,
   FaRocket,
@@ -521,6 +522,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <Hero />
+      <KioskSection />
     </div>
   );
 };

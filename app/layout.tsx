@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import QueryProvider from "./components/QueryProvider";
+import { CartProvider } from "./contexts/CartContext";
 
 const vazir = Vazirmatn({
   subsets: ["arabic"],
@@ -24,11 +25,13 @@ export default function RootLayout({
     <html lang="fa" dir="rtl">
       <body className={`${vazir.className} antialiased`}>
         <QueryProvider>
-          <Navbar />
-          <main>
-            {children}
-          </main>
-          <Footer/>
+          <CartProvider>
+            <Navbar />
+            <main>
+              {children}
+            </main>
+            <Footer/>
+          </CartProvider>
         </QueryProvider>
       </body>
     </html>

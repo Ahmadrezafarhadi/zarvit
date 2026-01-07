@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "../../contexts/CartContext";
 import {
   FaHome,
   FaCashRegister,
@@ -22,6 +23,7 @@ import {
   FaChartLine,
   FaCalculator,
   FaNewspaper,
+  FaShoppingCart,
 } from "react-icons/fa";
 import { HiSparkles, HiMenuAlt3, HiX } from "react-icons/hi";
 
@@ -316,7 +318,8 @@ const MobileMenu: React.FC<{
   isLoggedIn: boolean;
   user: UserInfo | null;
   onLogout: () => void;
-}> = ({ isOpen, onClose, pathname, isLoggedIn, user, onLogout }) => {
+  totalItems: number;
+}> = ({ isOpen, onClose, pathname, isLoggedIn, user, onLogout, totalItems }) => {
   const menuItems = isLoggedIn ? privateMenuItems : publicMenuItems;
 
   return (
@@ -369,6 +372,33 @@ const MobileMenu: React.FC<{
                 </div>
               </div>
             )}
+
+            {/* Mobile Cart Section */}
+            <div className="mb-8">
+              <Link
+                href="/cart"
+                onClick={onClose}
+                className="block bg-gradient-to-r from-card-bg to-background border border-border rounded-2xl p-4 hover:border-primary/50 transition-all duration-300"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/20 rounded-lg">
+                      <FaShoppingCart className="text-primary text-lg" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-white">سبد خرید</p>
+                      <p className="text-sm text-gray-400">{totalItems} محصول</p>
+                    </div>
+                  </div>
+
+                  {totalItems > 0 && (
+                    <div className="bg-primary text-background px-3 py-1 rounded-full text-sm font-bold">
+                      {totalItems > 99 ? '99+' : totalItems}
+                    </div>
+                  )}
+                </div>
+              </Link>
+            </div>
 
             {/* Menu Items */}
             <ul className="space-y-3">
@@ -487,6 +517,7 @@ const SearchModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 // Main Navbar Component
 const Navbar: React.FC = () => {
   const pathname = usePathname();
+  const { totalItems } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -612,6 +643,50 @@ const Navbar: React.FC = () => {
 
             {/* Right Section */}
             <div className="flex items-center gap-2">
+              {/* Cart Button */}
+              <Link href="/cart">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative hidden sm:flex"
+                >
+                  <IconButton
+                    icon={<FaShoppingCart size={16} />}
+                    className="relative"
+                  />
+                  <motion.div
+                    className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold rounded-full px-1"
+                    style={{
+                      backgroundColor: totalItems > 0 ? '#ef4444' : '#6b7280',
+                      color: 'white',
+                      boxShadow: totalItems > 0 ? '0 0 10px rgba(239, 68, 68, 0.3)' : 'none'
+                    }}
+                    animate={{
+                      scale: totalItems > 0 ? [1, 1.1, 1] : 1
+                    }}
+                    transition={{
+                      scale: {
+                        duration: 0.3,
+                        repeat: totalItems > 0 ? Infinity : 0,
+                        repeatDelay: 2
+                      }
+                    }}
+                  >
+                    {totalItems > 99 ? '99+' : totalItems}
+                  </motion.div>
+
+                  {/* Pulse effect when items exist */}
+                  {totalItems > 0 && (
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-0 bg-primary/20 rounded-lg"
+                      style={{ zIndex: -1 }}
+                    />
+                  )}
+                </motion.div>
+              </Link>
+
               {/* Search Button */}
               <IconButton
                 icon={<FaSearch size={16} />}
@@ -675,6 +750,7 @@ const Navbar: React.FC = () => {
         isLoggedIn={isLoggedIn}
         user={user}
         onLogout={handleLogout}
+        totalItems={totalItems}
       />
 
       {/* Search Modal */}

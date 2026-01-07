@@ -5,8 +5,74 @@
   --color-background: #0c1428;
   --color-card-bg: #162038;
   --color-border: #1e2d4d;
+  --color-gold-light: #ffd700;
+  --color-gold-dark: #b8860b;
+  --color-success: #10b981;
 }
 
 body {
   @apply bg-background;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Kiosk-optimized styles */
+@media (min-width: 1024px) {
+  /* Large screens - kiosk mode */
+  body {
+    font-size: 18px;
+  }
+
+  .kiosk-touch-target {
+    min-height: 56px;
+    min-width: 56px;
+  }
+}
+
+/* Gold-themed enhancements */
+.gold-gradient {
+  background: linear-gradient(135deg, #ffa400 0%, #ffd700 100%);
+}
+
+.gold-shadow {
+  box-shadow: 0 4px 20px rgba(255, 164, 0, 0.15);
+}
+
+.gold-text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Touch feedback animations */
+.touch-feedback {
+  transition: all 0.15s ease-in-out;
+}
+
+.touch-feedback:active {
+  transform: scale(0.95);
+}
+
+/* RTL optimizations */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e2d4d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffa400;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffd700;
 }
