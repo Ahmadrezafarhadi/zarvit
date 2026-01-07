@@ -53,10 +53,10 @@ const publicMenuItems: MenuItem[] = [
 
 // منوی خصوصی (برای کاربران لاگین شده فقط نمایش داده میشه)
 const privateMenuItems: MenuItem[] = [
-  { title: "داشبورد", href: "/dashboard", icon: <FaHome size={18} /> },
-  { title: "فروش حضوری", href: "/pos", icon: <FaCashRegister size={18} /> },
+  { title: "صفحه اصلی", href: "/", icon: <FaHome size={18} /> },
+  { title: "محاسبه‌گر", href: "/calculator", icon: <FaCalculator size={18} /> },
   { title: "محصولات", href: "/products", icon: <FaBoxes size={18} /> },
-  { title: "سفارشات", href: "/orders", icon: <FaClipboardList size={18} />, badge: 3 },
+  { title: "فروش حضوری", href: "/pos", icon: <FaCashRegister size={18} /> },
 ];
 
 // Animation Variants
